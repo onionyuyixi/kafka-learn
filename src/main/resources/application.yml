@@ -7,7 +7,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://onion:onion@127.0.0.1:27017/db_kafka
+      uri: mongodb://onion:onion@127.0.0.1:27017/
       database: db_kafka
   jpa:
     database: mysql
@@ -18,4 +18,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  kafka:
+    bootstrap-servers: 192.168.1.113:9092
+    producer:
+      # value-serializer:  必须有 默认是StringSerializer.class
+     # key-serializer: org.apache.kafka.common.serialization.Serializer  必须有  且必须实现该接口 默认是StringSerializer.class
+
 
