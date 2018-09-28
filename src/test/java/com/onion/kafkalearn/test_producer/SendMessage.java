@@ -40,7 +40,7 @@ public class SendMessage {
         Map map = basicalData();
         try{
             Producer producer = new KafkaProducer<String,Object>(map);
-            producer.send(record,(recordMetadata,e)->{ 
+            producer.send(record,(recordMetadata,e)->{
                 System.err.println("nice");
                 System.err.println(recordMetadata.toString());
                 System.err.println("hasOffseet-----"+recordMetadata.hasOffset());
@@ -64,6 +64,17 @@ public class SendMessage {
         map.put("bootstrap.servers","192.168.1.113:9092");
         map.put("value.serializer",StringSerializer.class);
         map.put("key.serializer",StringSerializer.class);
+        map.put("acks","all");
+        return map;
+    }
+
+    //avro序列化 后期再补充
+    private Map avroData(){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("bootstrap.servers","192.168.1.113:9092");
+        map.put("value.serializer","io.confluent.kafka.serializers.KafkaAvroSerializer.class");
+        map.put("key.serializer","io.confluent.kafka.serializers.KafkaAvroSerializer.class");
+        map.put("acks","all");
         return map;
     }
 
