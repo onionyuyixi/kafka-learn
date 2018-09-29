@@ -59,12 +59,51 @@ public class SendMessage {
 
     }
 
+    @Test
+    public void sendMessageNoKey(){
+        ProducerRecord<String, String> record = new ProducerRecord<>("CustomerCountry", "France");
+        Map map = basicalData();
+        try {
+            KafkaProducer<String, String> producer = new KafkaProducer<String, String>(map);
+            producer.send(record);
+            System.err.println("nice");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("error");
+        }
+
+    }
+
+
+    @Test
+    public void sendWithMyPartitioner(){
+        ProducerRecord<String, String> record = new ProducerRecord<>("CustomerCountry", "onion","France");
+        Map map = partitionerData();
+        try {
+            KafkaProducer<String, String> producer = new KafkaProducer<String, String>(map);
+
+            producer.send(record);
+            System.err.println("nice");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("error");
+        }
+    }
+
+    //配置生产者的属性
     private Map basicalData(){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("bootstrap.servers","192.168.1.113:9092");
+//        map.put("bootstrap.servers","192.168.1.113:9092");
+        map.put("bootstrap.servers","127.0.0.1:9092");
         map.put("value.serializer",StringSerializer.class);
         map.put("key.serializer",StringSerializer.class);
         map.put("acks","all");
+        return map;
+    }
+
+    private Map partitionerData(){
+        Map map = basicalData();
+        map.put("partitioner.class","com.onion.kafkalearn.config.MyPartitioner");
         return map;
     }
 
