@@ -83,4 +83,47 @@ public class KafkaProducerConfig {
 //    就使用操作系统的默认值。如果生产者或消费者与 broker 处于不同的数据中心，那么可以
 //    适当增大这些值，因为跨数据中心的网络一般都有比较高的延迟和比较低的带宽。
 
+/**
+ * 消费者的配置
+ * 案
+ * 1 topic 对 consumerGroup 负责  group中的 consumer  由group自身负责
+ * 2 topic 中的 partition 的数目a 与 group中 consumer的数目b 的关系 推荐  a>=b 这样不会出现idle consumer
+ * 3 a ,b 任何一方的数目发生变化  都会引起rebalance  Rebalance 会造成consumerGroup 暂时停用  保证以前的数据 能与现在 对接上
+ * 4
+ * public static class Consumer {
+ *         private final KafkaProperties.Ssl ssl = new KafkaProperties.Ssl();
+ *         private Duration autoCommitInterval;
+ *         private String autoOffsetReset;
+ *         private List<String> bootstrapServers;
+ *         private String clientId;
+ *         private Boolean enableAutoCommit;
+ *         // consumer 向broker发送fetch请求后 wait broker 的 max time
+ *         private Duration fetchMaxWait;
+ *         //consumer 获取message 的最小的数据量
+ *         private Integer fetchMinSize;
+ *         private String groupId;
+ *         private Duration heartbeatInterval;
+ *         private Class<?> keyDeserializer = StringDeserializer.class;
+ *         private Class<?> valueDeserializer = StringDeserializer.class;
+ *         private Integer maxPollRecords;
+ *         private final Map<String, String> properties = new HashMap();
+ *
+ *         public Consumer() {
+ *         }
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
