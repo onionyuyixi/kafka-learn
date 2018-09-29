@@ -81,7 +81,6 @@ public class SendMessage {
         Map map = partitionerData();
         try {
             KafkaProducer<String, String> producer = new KafkaProducer<String, String>(map);
-
             producer.send(record);
             System.err.println("nice");
         } catch (Exception e) {
