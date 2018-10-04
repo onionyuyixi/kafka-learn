@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,7 @@ public class ReceiveMessage {
         Map<String, Object> map = new HashMap<>();
         map.put("bootstrap.servers", "localhost:9092");
         map.put("group.id", "CountryCounter");
-        map.put("value.deserializer", StringDeserializer.class);
+        map.put("value.deserializer", LongDeserializer.class);
         map.put("key.deserializer", StringDeserializer.class);
         map.put("enableAutoCommit", true);
         return map;
@@ -35,8 +36,8 @@ public class ReceiveMessage {
     @Test
     public void consumeMessage() {
         Map map = consumerProperties();
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(map);
-        consumer.subscribe(Collections.singletonList("CustomerCountry"));
+        KafkaConsumer<String, Long> consumer = new KafkaConsumer<String, Long>(map);
+        consumer.subscribe(Collections.singletonList("streams-wordcount-output"));
         fetchMessage(consumer);
     }
 
@@ -44,8 +45,8 @@ public class ReceiveMessage {
     @Test
     public void consumeMessageWithSeek() {
         Map map = consumerProperties();
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(map);
-        consumer.subscribe(Collections.singletonList("CustomerCountry"),new MyConsumerRebalanceListener(consumer));
+        KafkaConsumer<String, Long> consumer = new KafkaConsumer<String, Long>(map);
+        consumer.subscribe(Collections.singletonList("streams-wordcount-output"),new MyConsumerRebalanceListener(consumer));
         fetchMessage(consumer);
     }
 
@@ -61,15 +62,15 @@ public class ReceiveMessage {
             }
         }
         consumer.assign(topicPartitions); //为消费者 分配partition
-        fetchMessage(consumer);
+//        fetchMessage(consumer);
     }
 
 
-    private void fetchMessage(KafkaConsumer<String, String> consumer) {
+    private void fetchMessage(KafkaConsumer<String, Long> consumer) {
         try {
             while (true) {
-                ConsumerRecords<String, String> consumerRecords = consumer.poll(100);
-                for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
+                ConsumerRecords<String, Long> consumerRecords = consumer.poll(100);
+                for (ConsumerRecord<String, Long> consumerRecord : consumerRecords) {
                     System.err.println(consumerRecord);
                 }
                 consumer.commitAsync(); //没有异常的情况下 采用异步提交  可以提高效率

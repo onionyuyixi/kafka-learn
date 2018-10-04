@@ -31,7 +31,7 @@ public class MyConsumerRebalanceListener implements ConsumerRebalanceListener {
     public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
 
         for (TopicPartition partition : partitions) {
-            consumer.seek(partition,1);//指定从offset=1 处开始获取消息
+            consumer.seek(partition,0);//指定从offset=1 处开始获取消息
         }
 
     }
