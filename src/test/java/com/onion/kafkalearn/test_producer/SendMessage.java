@@ -51,6 +51,7 @@ public class SendMessage {
                 System.err.println("topic-----"+recordMetadata.topic());
                 System.err.println("serializedKeySize-----"+recordMetadata.serializedKeySize()); //由于采用的是StringSerializer 这里的大小实际上可以代表字符串的长度
                 System.err.println("serializedValueSize-----"+recordMetadata.serializedValueSize());
+                System.err.println(recordMetadata);
             });
         }catch (Exception e){
             e.printStackTrace();
