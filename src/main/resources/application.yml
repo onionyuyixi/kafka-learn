@@ -19,7 +19,7 @@ spring:
       hibernate:
         format_sql: true
   kafka:
-    bootstrap-servers: 192.168.1.113:9092
+    bootstrap-servers: 192.168.1.109:9092 ,192.168.1.109:9093,192.168.1.109:9094
 #    producer:
       # value-serializer:  必须有 默认是StringSerializer.class
      # key-serializer: org.apache.kafka.common.serialization.Serializer  必须有  且必须实现该接口 默认是StringSerializer.class

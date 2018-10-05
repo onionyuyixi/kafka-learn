@@ -47,7 +47,10 @@ public class ReceiveMessage {
         Map map = consumerProperties();
         KafkaConsumer<String, Long> consumer = new KafkaConsumer<String, Long>(map);
 //        consumer.subscribe(Collections.singletonList("streams-wordcount-output"),new MyConsumerRebalanceListener(consumer));
-        consumer.subscribe(Collections.singletonList("kstream-output1"),new MyConsumerRebalanceListener(consumer));
+//        consumer.subscribe(Collections.singletonList("kstream-output1"),new MyConsumerRebalanceListener(consumer));
+//        consumer.subscribe(Collections.singletonList("dsl-wc2-kstream-output1"),new MyConsumerRebalanceListener(consumer));
+//        consumer.subscribe(Collections.singletonList("dsl-wc-KSTREAM-AGGREGATE-STATE-STORE-0000000003-changelog-0"),new MyConsumerRebalanceListener(consumer));
+        consumer.subscribe(Collections.singletonList("word-input"),new MyConsumerRebalanceListener(consumer));
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

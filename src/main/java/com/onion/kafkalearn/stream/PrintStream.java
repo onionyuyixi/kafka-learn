@@ -18,7 +18,7 @@ public class PrintStream {
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
         StreamsBuilder builder = new StreamsBuilder();
         builder.table("ktable-output1").print();
-        builder.table("kstream-output1").print();
+        builder.stream("kstream-output1").print();
         KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), props);
         kafkaStreams.start();
         Thread.sleep(40000L);
