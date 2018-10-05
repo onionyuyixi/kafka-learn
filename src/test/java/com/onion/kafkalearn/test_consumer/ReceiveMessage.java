@@ -46,14 +46,21 @@ public class ReceiveMessage {
     public void consumeMessageWithSeek() {
         Map map = consumerProperties();
         KafkaConsumer<String, Long> consumer = new KafkaConsumer<String, Long>(map);
-        consumer.subscribe(Collections.singletonList("streams-wordcount-output"),new MyConsumerRebalanceListener(consumer));
-        fetchMessage(consumer);
+//        consumer.subscribe(Collections.singletonList("streams-wordcount-output"),new MyConsumerRebalanceListener(consumer));
+        consumer.subscribe(Collections.singletonList("kstream-output1"),new MyConsumerRebalanceListener(consumer));
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                fetchMessage(consumer);
+            }
+        };
+        runnable.run();
     }
 
     @Test
     public void oneConsumer(){
         Map map = consumerProperties();
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(map);
+        final KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(map);
         List<PartitionInfo> partitionInfos = consumer.partitionsFor("CustomerCountry"); // 获取CustomerCountry消费群组中所有分区
         List<TopicPartition> topicPartitions = new ArrayList<>();
         if(partitionInfos!=null){
@@ -62,7 +69,7 @@ public class ReceiveMessage {
             }
         }
         consumer.assign(topicPartitions); //为消费者 分配partition
-//        fetchMessage(consumer);
+
     }
 
 
