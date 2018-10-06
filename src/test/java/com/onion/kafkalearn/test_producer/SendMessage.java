@@ -103,7 +103,7 @@ public class SendMessage {
 
     private Map partitionerData(){
         Map map = basicalData();
-        map.put("partitioner.class","com.onion.kafkalearn.config.MyPartitioner");
+        map.put("partitioner.class","com.onion.kafkalearn.config.MyPartitioner");//这里配置自己的partitioner
         return map;
     }
 

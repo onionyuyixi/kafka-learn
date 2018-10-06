@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 import java.util.Map;
 
-
+//实现partitioner接口
 @Configuration
 public class MyPartitioner implements Partitioner {
 
@@ -27,6 +27,7 @@ public class MyPartitioner implements Partitioner {
             return numPartitions; //key是onion的消息  分配在最后一个分区上
         }
         return (Math.abs(Utils.murmur2(keyBytes))%(numPartitions-1)); //hash 散列 均衡
+//        return super.partition(topic, key, keyBytes, value, valueBytes, cluster);
     }
 
     @Override

@@ -25,8 +25,9 @@ public class ReceiveMessage {
     private Map consumerProperties() {
         Map<String, Object> map = new HashMap<>();
         map.put("bootstrap.servers", "localhost:9092");
-        map.put("group.id", "CountryCounter");
-        map.put("value.deserializer", LongDeserializer.class);
+        map.put("group.id", "sentence");
+//        map.put("value.deserializer", LongDeserializer.class);
+        map.put("value.deserializer", StringDeserializer.class);
         map.put("key.deserializer", StringDeserializer.class);
         map.put("enableAutoCommit", true);
         return map;
@@ -50,25 +51,20 @@ public class ReceiveMessage {
 //        consumer.subscribe(Collections.singletonList("kstream-output1"),new MyConsumerRebalanceListener(consumer));
 //        consumer.subscribe(Collections.singletonList("dsl-wc2-kstream-output1"),new MyConsumerRebalanceListener(consumer));
 //        consumer.subscribe(Collections.singletonList("dsl-wc-KSTREAM-AGGREGATE-STATE-STORE-0000000003-changelog-0"),new MyConsumerRebalanceListener(consumer));
-        consumer.subscribe(Collections.singletonList("word-input"),new MyConsumerRebalanceListener(consumer));
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                fetchMessage(consumer);
-            }
-        };
-        runnable.run();
+        consumer.subscribe(Collections.singletonList("word-input"), new MyConsumerRebalanceListener(consumer));
+        fetchMessage(consumer);
+
     }
 
     @Test
-    public void oneConsumer(){
+    public void oneConsumer() {
         Map map = consumerProperties();
         final KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(map);
         List<PartitionInfo> partitionInfos = consumer.partitionsFor("CustomerCountry"); // 获取CustomerCountry消费群组中所有分区
         List<TopicPartition> topicPartitions = new ArrayList<>();
-        if(partitionInfos!=null){
+        if (partitionInfos != null) {
             for (PartitionInfo partitionInfo : partitionInfos) {
-                topicPartitions.add(new TopicPartition(partitionInfo.topic(),partitionInfo.partition()));
+                topicPartitions.add(new TopicPartition(partitionInfo.topic(), partitionInfo.partition()));
             }
         }
         consumer.assign(topicPartitions); //为消费者 分配partition
